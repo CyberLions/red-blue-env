@@ -196,7 +196,7 @@ resources:
           params:
             $index: { get_param: environment_index }
       image: { get_param: ubuntu_20_desktop_image }
-      flavor: m1.medium
+      flavor: m1.small
       key_name: { get_param: key_name }
       networks:
         - network: { get_resource: env_network }
@@ -217,7 +217,7 @@ resources:
           params:
             $index: { get_param: environment_index }
       image: { get_param: splunk_image }
-      flavor: m1.large
+      flavor: m1.small
       key_name: { get_param: key_name }
       networks:
         - network: { get_resource: env_network }
