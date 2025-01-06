@@ -98,8 +98,7 @@ resources:
       resource_def:
         type: OS::Heat::Stack
         properties:
-          template:
-            get_file: environment_template.yaml
+          template: https://raw.githubusercontent.com/CyberLions/red-blue-env/refs/heads/main/docs/heat/templates/environment_template.yaml
           parameters:
             environment_index: "%index%"
             key_name: { get_param: key_name }
