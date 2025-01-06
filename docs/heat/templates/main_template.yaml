@@ -1,0 +1,121 @@
+heat_template_version: 2021-04-16
+
+description: |
+  Template to create a master network with one small Ubuntu instance and multiple environments
+  with specific subnets and instances.
+
+parameters:
+  key_name:
+    type: string
+    label: Key Pair
+    description: Name of the key pair to use for instances
+  environment_count:
+    type: number
+    label: Number of Environments
+    description: Number of environments to create
+    default: 1
+    constraints:
+      - range: { min: 1, max: 10 }
+  ubuntu_image:
+    type: string
+    label: Ubuntu Image
+    description: ID of the Ubuntu image
+  windows_2019_image:
+    type: string
+    label: Windows Server 2019 Image
+    description: ID of the Windows Server 2019 image
+  debian_10_image:
+    type: string
+    label: Debian 10 Image
+    description: ID of the Debian 10 image
+  ubuntu_18_image:
+    type: string
+    label: Ubuntu 18.04 Image
+    description: ID of the Ubuntu 18.04 image
+  ubuntu_20_desktop_image:
+    type: string
+    label: Ubuntu 20.04 Desktop Image
+    description: ID of the Ubuntu 20.04 Desktop image
+  splunk_image:
+    type: string
+    label: Splunk Image
+    description: ID of the Splunk image
+  centos_7_image:
+    type: string
+    label: CentOS 7 Image
+    description: ID of the CentOS 7 image
+  fedora_21_image:
+    type: string
+    label: Fedora 21 Image
+    description: ID of the Fedora 21 image
+  public_net:
+    type: string
+    label: Public Network
+    description: ID of the public network for internet access
+
+resources:
+  master_network:
+    type: OS::Neutron::Net
+    properties:
+      name: master-network
+
+  master_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: master_network }
+      cidr: 10.0.0.0/24
+      gateway_ip: 10.0.0.1
+      allocation_pools:
+        - start: 10.0.0.10
+          end: 10.0.0.200
+
+  master_router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info:
+        network: { get_param: public_net }
+
+  master_router_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: master_router }
+      subnet_id: { get_resource: master_subnet }
+
+  master_instance:
+    type: OS::Nova::Server
+    properties:
+      name: master-ubuntu
+      image: { get_param: ubuntu_image }
+      flavor: m1.small
+      key_name: { get_param: key_name }
+      networks:
+        - network: { get_resource: master_network }
+
+  environments:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: { get_param: environment_count }
+      resource_def:
+        type: OS::Heat::Stack
+        properties:
+          template:
+            get_file: environment_template.yaml
+          parameters:
+            environment_index: "%index%"
+            key_name: { get_param: key_name }
+            windows_2019_image: { get_param: windows_2019_image }
+            debian_10_image: { get_param: debian_10_image }
+            ubuntu_18_image: { get_param: ubuntu_18_image }
+            ubuntu_20_desktop_image: { get_param: ubuntu_20_desktop_image }
+            splunk_image: { get_param: splunk_image }
+            centos_7_image: { get_param: centos_7_image }
+            fedora_21_image: { get_param: fedora_21_image }
+            public_net: { get_param: public_net }
+
+outputs:
+  master_network_id:
+    description: ID of the master network
+    value: { get_resource: master_network }
+  master_instance_ip:
+    description: IP address of the master Ubuntu instance
+    value: { get_attr: [master_instance, first_address] }
