@@ -117,9 +117,15 @@ resources:
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: internal_subnet }
+          fixed_ip:
+            str_replace:
+              template: 10.$index.1.10
+              params:
+                $index: { get_param: environment_index }
 
   debian_10_internal:
     type: OS::Nova::Server
+    depends_on: windows_2019_internal
     properties:
       name:
         str_replace:
@@ -132,9 +138,15 @@ resources:
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: internal_subnet }
+          fixed_ip:
+            str_replace:
+              template: 10.$index.1.11
+              params:
+                $index: { get_param: environment_index }
 
   ubuntu_18_user:
     type: OS::Nova::Server
+    depends_on: debian_10_internal
     properties:
       name:
         str_replace:
@@ -147,9 +159,15 @@ resources:
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: user_subnet }
+          fixed_ip:
+            str_replace:
+              template: 10.$index.2.10
+              params:
+                $index: { get_param: environment_index }
 
   windows_2019_user:
     type: OS::Nova::Server
+    depends_on: ubuntu_18_user
     properties:
       name:
         str_replace:
@@ -162,9 +180,15 @@ resources:
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: user_subnet }
+          fixed_ip:
+            str_replace:
+              template: 10.$index.2.11
+              params:
+                $index: { get_param: environment_index }
 
   ubuntu_20_desktop_user:
     type: OS::Nova::Server
+    depends_on: windows_2019_user
     properties:
       name:
         str_replace:
@@ -177,9 +201,15 @@ resources:
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: user_subnet }
+          fixed_ip:
+            str_replace:
+              template: 10.$index.2.12
+              params:
+                $index: { get_param: environment_index }
 
   splunk_public:
     type: OS::Nova::Server
+    depends_on: ubuntu_20_desktop_user
     properties:
       name:
         str_replace:
@@ -192,9 +222,15 @@ resources:
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: public_subnet }
+          fixed_ip:
+            str_replace:
+              template: 10.$index.3.10
+              params:
+                $index: { get_param: environment_index }
 
   centos_7_public:
     type: OS::Nova::Server
+    depends_on: splunk_public
     properties:
       name:
         str_replace:
@@ -207,9 +243,15 @@ resources:
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: public_subnet }
+          fixed_ip:
+            str_replace:
+              template: 10.$index.3.11
+              params:
+                $index: { get_param: environment_index }
 
   fedora_21_public:
     type: OS::Nova::Server
+    depends_on: centos_7_public
     properties:
       name:
         str_replace:
@@ -222,6 +264,11 @@ resources:
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: public_subnet }
+          fixed_ip:
+            str_replace:
+              template: 10.$index.3.12
+              params:
+                $index: { get_param: environment_index }
 
 outputs:
   env_network_id:

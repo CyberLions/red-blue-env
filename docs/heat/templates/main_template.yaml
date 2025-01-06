@@ -1,57 +1,70 @@
 heat_template_version: 2021-04-16
 
 description: |
-  Template to create a master network with one small Ubuntu instance and multiple environments
-  with specific subnets and instances.
+  A template to create multiple environments with specific subnets and instances.
 
 parameters:
   key_name:
     type: string
-    label: Key Pair
-    description: Name of the key pair to use for instances
-  environment_count:
-    type: number
-    label: Number of Environments
-    description: Number of environments to create
-    default: 1
+    label: Keypair Name
+    description: Name of a KeyPair to enable SSH access to the instances.
     constraints:
-      - range: { min: 1, max: 10 }
-  ubuntu_image:
-    type: string
-    label: Ubuntu Image
-    description: ID of the Ubuntu image
+      - custom_constraint: nova.keypair
   windows_2019_image:
     type: string
     label: Windows Server 2019 Image
-    description: ID of the Windows Server 2019 image
+    description: ID of the Windows Server 2019 image.
+    constraints:
+      - custom_constraint: glance.image
   debian_10_image:
     type: string
     label: Debian 10 Image
-    description: ID of the Debian 10 image
+    description: ID of the Debian 10 image.
+    constraints:
+      - custom_constraint: glance.image
   ubuntu_18_image:
     type: string
     label: Ubuntu 18.04 Image
-    description: ID of the Ubuntu 18.04 image
+    description: ID of the Ubuntu 18.04 image.
+    constraints:
+      - custom_constraint: glance.image
   ubuntu_20_desktop_image:
     type: string
     label: Ubuntu 20.04 Desktop Image
-    description: ID of the Ubuntu 20.04 Desktop image
+    description: ID of the Ubuntu 20.04 Desktop image.
+    constraints:
+      - custom_constraint: glance.image
   splunk_image:
     type: string
     label: Splunk Image
-    description: ID of the Splunk image
+    description: ID of the Splunk image.
+    constraints:
+      - custom_constraint: glance.image
   centos_7_image:
     type: string
     label: CentOS 7 Image
-    description: ID of the CentOS 7 image
+    description: ID of the CentOS 7 image.
+    constraints:
+      - custom_constraint: glance.image
   fedora_21_image:
     type: string
     label: Fedora 21 Image
-    description: ID of the Fedora 21 image
+    description: ID of the Fedora 21 image.
+    constraints:
+      - custom_constraint: glance.image
   public_net:
     type: string
     label: Public Network
-    description: ID of the public network for internet access
+    description: ID of the public network for internet access.
+    constraints:
+      - custom_constraint: neutron.network
+  environment_count:
+    type: number
+    label: Number of Environments
+    description: How many environments would you like to deploy?
+    constraints:
+      - range: { min: 1 }
+    default: 1
 
 resources:
   master_network:
@@ -85,7 +98,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name: master-ubuntu
-      image: { get_param: ubuntu_image }
+      image: { get_param: ubuntu_18_image }
       flavor: m1.small
       key_name: { get_param: key_name }
       networks:
@@ -96,20 +109,18 @@ resources:
     properties:
       count: { get_param: environment_count }
       resource_def:
-        type: OS::Heat::Stack
+        type: https://github.com/CyberLions/red-blue-env/raw/refs/heads/main/docs/heat/templates/environment_template.yaml
         properties:
-          template: https://raw.githubusercontent.com/CyberLions/red-blue-env/refs/heads/main/docs/heat/templates/environment_template.yaml
-          parameters:
-            environment_index: "%index%"
-            key_name: { get_param: key_name }
-            windows_2019_image: { get_param: windows_2019_image }
-            debian_10_image: { get_param: debian_10_image }
-            ubuntu_18_image: { get_param: ubuntu_18_image }
-            ubuntu_20_desktop_image: { get_param: ubuntu_20_desktop_image }
-            splunk_image: { get_param: splunk_image }
-            centos_7_image: { get_param: centos_7_image }
-            fedora_21_image: { get_param: fedora_21_image }
-            public_net: { get_param: public_net }
+          environment_index: "%index%"
+          key_name: { get_param: key_name }
+          windows_2019_image: { get_param: windows_2019_image }
+          debian_10_image: { get_param: debian_10_image }
+          ubuntu_18_image: { get_param: ubuntu_18_image }
+          ubuntu_20_desktop_image: { get_param: ubuntu_20_desktop_image }
+          splunk_image: { get_param: splunk_image }
+          centos_7_image: { get_param: centos_7_image }
+          fedora_21_image: { get_param: fedora_21_image }
+          public_net: { get_param: public_net }
 
 outputs:
   master_network_id:
@@ -118,3 +129,9 @@ outputs:
   master_instance_ip:
     description: IP address of the master Ubuntu instance
     value: { get_attr: [master_instance, first_address] }
+  environment_attributes:
+    description: A map of resource names to the specified attribute of each individual environment
+    value: { get_attr: [ environments, attributes ] }
+  environment_refs:
+    description: A list of resource IDs for the environments in the group
+    value: { get_attr: [ environments, refs ] }
