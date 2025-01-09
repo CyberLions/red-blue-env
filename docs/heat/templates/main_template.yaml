@@ -28,7 +28,7 @@ parameters:
     description: ID of the Ubuntu 18.04 image.
     constraints:
       - custom_constraint: glance.image
-  ubuntu_20_desktop_image:
+  ubuntu_20_image:
     type: string
     label: Ubuntu 20.04 Desktop Image
     description: ID of the Ubuntu 20.04 Desktop image.
@@ -98,7 +98,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name: master-ubuntu
-      image: { get_param: ubuntu_18_image }
+      image: { get_param: ubuntu_20_image }
       flavor: m1.small
       key_name: { get_param: key_name }
       networks:
@@ -116,7 +116,7 @@ resources:
           windows_2019_image: { get_param: windows_2019_image }
           debian_10_image: { get_param: debian_10_image }
           ubuntu_18_image: { get_param: ubuntu_18_image }
-          ubuntu_20_desktop_image: { get_param: ubuntu_20_desktop_image }
+          ubuntu_20_image: { get_param: ubuntu_20_image }
           splunk_image: { get_param: splunk_image }
           centos_7_image: { get_param: centos_7_image }
           fedora_21_image: { get_param: fedora_21_image }

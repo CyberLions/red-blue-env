@@ -13,7 +13,7 @@ parameters:
     type: string
   ubuntu_18_image:
     type: string
-  ubuntu_20_desktop_image:
+  ubuntu_20_image:
     type: string
   splunk_image:
     type: string
@@ -195,7 +195,7 @@ resources:
           template: ubuntu-20-desktop-user-$index
           params:
             $index: { get_param: environment_index }
-      image: { get_param: ubuntu_20_desktop_image }
+      image: { get_param: ubuntu_20_image }
       flavor: m1.small
       key_name: { get_param: key_name }
       networks:
