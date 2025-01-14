@@ -109,6 +109,21 @@ resources:
       router_id: { get_resource: env_router }
       subnet_id: { get_resource: public_subnet }
 
+  environment_router_interfaces:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: { get_param: environment_count }
+      resource_def:
+        type: OS::Neutron::RouterInterface
+        properties:
+          router_id: { get_resource: master_router }
+          subnet:
+            str_replace:
+              template: 10.$index.1.0/24
+              params:
+                $index: '%index%'
+
+
   windows_2019_internal:
     type: OS::Nova::Server
     properties:

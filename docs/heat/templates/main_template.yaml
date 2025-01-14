@@ -161,6 +161,10 @@ resources:
           centos_7_image: { get_param: centos_7_image }
           fedora_21_image: { get_param: fedora_21_image }
           public_net: { get_param: public_net }
+    outputs:
+      env_network_id:
+        description: ID of the environment network
+        value: { get_resource: env_network }
 
 outputs:
   master_network_id:
@@ -169,6 +173,9 @@ outputs:
   master_instance_ip:
     description: IP address of the master Ubuntu instance
     value: { get_attr: [master_instance, first_address] }
+  environment_network_ids:
+    description: IDs of the environment networks
+    value: { get_attr: [environments, env_network_id] }
   environment_attributes:
     description: A map of resource names to the specified attribute of each individual environment
     value: { get_attr: [ environments, attributes ] }
