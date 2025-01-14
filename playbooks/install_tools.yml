@@ -21,7 +21,7 @@
     - { role: windows_docker_remote, when: "'user' in inventory_hostname" }
 
 - name: Install tools on Debian servers
-  hosts: debian
+  hosts: all
   become: yes
   roles:
     - debian_dns_ntp
