@@ -6,6 +6,9 @@ import json
 def generate_inventory(env_count):
     inventory = {
         "all": {
+            "vars": {
+                "ansible_ssh_private_key_file": "/home/ubuntu/red-blue-env/keys/CCDCENV.pem"
+            },
             "children": {
                 "windows": {"hosts": {}},
                 "debian": {"hosts": {}},
