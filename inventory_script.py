@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # This script generates an Ansible inventory file with a specified number of environments.
-# Usage: ansible-playbook -i "inventory_script.py 3" install_tools.yml
+# Usage: ansible-playbook -i "inventory_script.py 3" playbooks/install_tools.yml
 
 import sys
 import json

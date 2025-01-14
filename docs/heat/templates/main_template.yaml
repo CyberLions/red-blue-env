@@ -178,7 +178,9 @@ resources:
       resource_def:
         type: https://github.com/CyberLions/red-blue-env/raw/refs/heads/main/docs/heat/templates/environment_template.yaml
         properties:
-          environment_index: "%index%"
+          environment_index: 
+            yaql:
+              expression: str(int($index) + 1)
           key_name: { get_param: key_name }
           windows_2019_image: { get_param: windows_2019_image }
           debian_10_image: { get_param: debian_10_image }
