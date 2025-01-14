@@ -7,13 +7,13 @@
 - name: Linux-specific common tasks
   hosts: all:!windows
   roles:
-    - linux_common
+    - linux
 
 - name: Windows-specific common tasks
   hosts: windows
   roles:
-    - windows_common
-    
+    - windows
+
 - name: Install tools on Windows servers
   hosts: windows
   roles:
