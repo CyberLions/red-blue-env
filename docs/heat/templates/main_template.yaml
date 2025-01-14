@@ -91,21 +91,6 @@ resources:
         - direction: egress
           ethertype: IPv4
 
-  environment_security_group:
-    type: OS::Neutron::SecurityGroup
-    properties:
-      name: environment-security-group
-      rules:
-        - direction: ingress
-          ethertype: IPv4
-          remote_ip_prefix: 10.0.0.0/24  # Allow traffic from master network
-        - direction: egress
-          ethertype: IPv4
-          remote_ip_prefix: 10.0.0.0/24  # Allow traffic to master network
-        - direction: egress
-          ethertype: IPv4
-          remote_ip_prefix: 0.0.0.0/0    # Allow internet access
-
   master_network:
     type: OS::Neutron::Net
     properties:
@@ -203,7 +188,6 @@ resources:
           fedora_21_image: { get_param: fedora_21_image }
           public_net: { get_param: public_net }
           central_router_id: { get_resource: central_router }
-          environment_security_group_id: { get_resource: environment_security_group }
 
 outputs:
   master_network_id:

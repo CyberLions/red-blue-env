@@ -25,8 +25,6 @@ parameters:
     type: string
   central_router_id:
     type: string
-  environment_security_group_id:
-    type: string
 
 resources:
   env_network:
@@ -37,6 +35,21 @@ resources:
           template: env-network-$index
           params:
             $index: { get_param: environment_index }
+  
+  environment_security_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      name: environment-security-group
+      rules:
+        - direction: ingress
+          ethertype: IPv4
+          remote_ip_prefix: 10.0.0.0/24  # Allow traffic from master network
+        - direction: egress
+          ethertype: IPv4
+          remote_ip_prefix: 10.0.0.0/24  # Allow traffic to master network
+        - direction: egress
+          ethertype: IPv4
+          remote_ip_prefix: 0.0.0.0/0    # Allow internet access
 
   internal_subnet:
     type: OS::Neutron::Subnet
@@ -119,7 +132,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_param: environment_security_group_id }
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: internal_subnet }
@@ -142,7 +155,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_param: environment_security_group_id }
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: internal_subnet }
@@ -165,7 +178,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_param: environment_security_group_id }
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: user_subnet }
@@ -188,7 +201,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_param: environment_security_group_id }
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: user_subnet }
@@ -211,7 +224,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_param: environment_security_group_id }
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: user_subnet }
@@ -234,7 +247,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_param: environment_security_group_id }
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: public_subnet }
@@ -257,7 +270,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_param: environment_security_group_id }
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: public_subnet }
@@ -280,7 +293,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_param: environment_security_group_id }
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: public_subnet }
