@@ -81,6 +81,8 @@ resources:
       allocation_pools:
         - start: 10.0.0.10
           end: 10.0.0.200
+      dns_nameservers:
+        - 1.1.1.1
 
   master_router:
     type: OS::Neutron::Router
