@@ -203,7 +203,7 @@ resources:
           fedora_21_image: { get_param: fedora_21_image }
           public_net: { get_param: public_net }
           central_router_id: { get_resource: central_router }
-          #environment_security_group: { get_resource: environment_security_group }
+          environment_security_group_id: { get_resource: environment_security_group }
 
 outputs:
   master_network_id:

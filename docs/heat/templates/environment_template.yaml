@@ -117,7 +117,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_resource: environment_security_group }
+        - { get_param: environment_security_group_id }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: internal_subnet }
@@ -140,7 +140,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_resource: environment_security_group }
+        - { get_param: environment_security_group_id }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: internal_subnet }
@@ -163,7 +163,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_resource: environment_security_group }
+        - { get_param: environment_security_group_id }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: user_subnet }
@@ -186,7 +186,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_resource: environment_security_group }
+        - { get_param: environment_security_group_id }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: user_subnet }
@@ -209,7 +209,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_resource: environment_security_group }
+        - { get_param: environment_security_group_id }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: user_subnet }
@@ -232,7 +232,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_resource: environment_security_group }
+        - { get_param: environment_security_group_id }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: public_subnet }
@@ -255,7 +255,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_resource: environment_security_group }
+        - { get_param: environment_security_group_id }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: public_subnet }
@@ -278,7 +278,7 @@ resources:
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
-        - { get_resource: environment_security_group }
+        - { get_param: environment_security_group_id }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: public_subnet }
