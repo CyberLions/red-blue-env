@@ -99,45 +99,48 @@ resources:
     properties:
       name: master-ubuntu
       image: { get_param: ubuntu_20_image }
-      flavor: m1.small
+      flavor: m1.medium
       key_name: { get_param: key_name }
       networks:
         - network: { get_resource: master_network }
-          user_data:
-      str_replace:
-        template: |
-          #!/bin/bash
-          set -e
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            $environment_count: { get_param: environment_count }
+          template: |
+            #!/bin/bash
+            set -e
 
-          # Update and install required packages
-          apt-get update
-          apt-get install -y ansible git
+            # Create ubuntu user with password ubuntu
+            echo "ubuntu:ubuntu" | chpasswd
+            usermod -aG sudo ubuntu
 
-          # Create ubuntu user with password ubuntu
-          useradd -m -s /bin/bash ubuntu
-          echo "ubuntu:ubuntu" | chpasswd
-          usermod -aG sudo ubuntu
+            # Start SSH
+            systemctl start ssh
 
-          # Clone the repository
-          git clone https://github.com/CyberLions/red-blue-env.git /home/ubuntu/red-blue-env
-          chown -R ubuntu:ubuntu /home/ubuntu/red-blue-env
+            # Update and install required packages
+            apt-get update
+            apt-get install -y ansible git
 
-          # Write environments information to a file
-          echo "$environment_count" > /home/ubuntu/environment_count.txt
+            # Clone the repository
+            git clone https://github.com/CyberLions/red-blue-env.git /home/ubuntu/red-blue-env
+            chown -R ubuntu:ubuntu /home/ubuntu/red-blue-env
 
-          # Create a script to run Ansible playbooks
-          cat << EOF > /home/ubuntu/run_ansible.sh
-          #!/bin/bash
-          cd /home/ubuntu/red-blue-env
-          ansible-playbook -i inventory.ini playbook.yml --extra-vars "@/home/ubuntu/environment_count.txt"
-          EOF
+            # Write environments information to a file
+            echo "$environment_count" > /home/ubuntu/environment_count.txt
 
-          chmod +x /home/ubuntu/run_ansible.sh
-          chown ubuntu:ubuntu /home/ubuntu/run_ansible.sh
+            # Create a script to run Ansible playbooks
+            cat << EOF > /home/ubuntu/run_ansible.sh
+            #!/bin/bash
+            cd /home/ubuntu/red-blue-env
+            ansible-playbook -i inventory.ini playbook.yml --extra-vars "@/home/ubuntu/environment_count.txt"
+            EOF
 
-          echo "Setup complete. Log in as ubuntu user and run ./run_ansible.sh to execute Ansible playbooks."
-        params:
-          $environment_count: { get_param: environment_count }
+            chmod +x /home/ubuntu/run_ansible.sh
+            chown ubuntu:ubuntu /home/ubuntu/run_ansible.sh
+
+            echo "Setup complete. Log in as ubuntu user and run ./run_ansible.sh to execute Ansible playbooks."
 
   environments:
     type: OS::Heat::ResourceGroup

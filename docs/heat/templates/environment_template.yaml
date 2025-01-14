@@ -133,7 +133,7 @@ resources:
           params:
             $index: { get_param: environment_index }
       image: { get_param: debian_10_image }
-      flavor: m1.small
+      flavor: m1.medium
       key_name: { get_param: key_name }
       networks:
         - network: { get_resource: env_network }
@@ -154,7 +154,7 @@ resources:
           params:
             $index: { get_param: environment_index }
       image: { get_param: ubuntu_18_image }
-      flavor: m1.small
+      flavor: m1.medium
       key_name: { get_param: key_name }
       networks:
         - network: { get_resource: env_network }
@@ -196,7 +196,7 @@ resources:
           params:
             $index: { get_param: environment_index }
       image: { get_param: ubuntu_20_image }
-      flavor: m1.small
+      flavor: m1.medium
       key_name: { get_param: key_name }
       networks:
         - network: { get_resource: env_network }
@@ -217,7 +217,7 @@ resources:
           params:
             $index: { get_param: environment_index }
       image: { get_param: splunk_image }
-      flavor: m1.small
+      flavor: m1.medium
       key_name: { get_param: key_name }
       networks:
         - network: { get_resource: env_network }
@@ -238,7 +238,7 @@ resources:
           params:
             $index: { get_param: environment_index }
       image: { get_param: centos_7_image }
-      flavor: m1.small
+      flavor: m1.medium
       key_name: { get_param: key_name }
       networks:
         - network: { get_resource: env_network }
@@ -259,7 +259,7 @@ resources:
           params:
             $index: { get_param: environment_index }
       image: { get_param: fedora_21_image }
-      flavor: m1.small
+      flavor: m1.medium
       key_name: { get_param: key_name }
       networks:
         - network: { get_resource: env_network }
