@@ -4,7 +4,7 @@
     state: present
 
 - name: Enable Remote Desktop
-  win_rdp:
+  community.windows.win_rdp:
     allow_connections: yes
 
 - name: Configure Docker
