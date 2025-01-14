@@ -59,17 +59,3 @@
   roles:
     - { role: splunk, ignore_errors: yes }
 
----
-- name: Import install_tools playbook
-  import_playbook: playbooks/install_tools.yml
-  ignore_errors: yes
-
-- name: Verify installation
-  hosts: all
-  become: yes
-  any_errors_fatal: false
-  tasks:
-    - name: Display completion message
-      debug:
-        msg: "Tools installation completed on {{ inventory_hostname }}"
-      ignore_errors: yes
