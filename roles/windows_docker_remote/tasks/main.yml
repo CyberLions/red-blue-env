@@ -3,9 +3,9 @@
     name: docker-desktop
     state: present
 
-- name: Enable Remote Desktop
-  community.windows.win_rdp:
-    allow_connections: yes
+#- name: Enable Remote Desktop
+#  community.windows.win_rdp:
+#    allow_connections: yes
 
 - name: Configure Docker
   win_shell: |

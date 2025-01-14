@@ -150,6 +150,7 @@ resources:
             #!/bin/bash
             cd /home/ubuntu/red-blue-env
             python3 inventory_script.py $environment_count > inventory.json
+            ansible-galaxy collection install community.windows
             ansible-playbook -i inventory.json deploy.yml
             EOF
 
