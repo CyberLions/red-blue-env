@@ -22,7 +22,7 @@
     safe_mode_password: SecurePassword123!
 
 - name: Configure DNS Server
-  win_dns_zone:
+  community.windows.win_dns_zone:
     name: example.com
     type: primary
     dynamic_update: secure
