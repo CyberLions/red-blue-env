@@ -1,0 +1,14 @@
+common_tools:
+  - vim
+  - curl
+  - wget
+  - htop
+  - git
+
+windows_tools:
+  - notepad++
+  - 7zip
+
+linux_tools:
+  - tmux
+  - nmap

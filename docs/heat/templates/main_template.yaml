@@ -154,6 +154,7 @@ resources:
             # Clone the repository
             git clone https://github.com/CyberLions/red-blue-env.git /home/ubuntu/red-blue-env
             chown -R ubuntu:ubuntu /home/ubuntu/red-blue-env
+            chmod 600 /home/ubuntu/red-blue-env/keys/*
 
             # Write environments information to a file
             echo "$environment_count" > /home/ubuntu/environment_count.txt

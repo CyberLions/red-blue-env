@@ -1,0 +1,6 @@
+---
+- name: Install Windows-specific tools
+  win_chocolatey:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ windows_tools }}"

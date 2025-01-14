@@ -1,0 +1,26 @@
+---
+- name: Install tools on all machines
+  hosts: all
+  become: yes
+  roles:
+    - common
+
+- name: Install Windows-specific tools
+  hosts: windows
+  roles:
+    - windows
+
+- name: Install Linux-specific tools
+  hosts: linux
+  become: yes
+  roles:
+    - linux
+
+- name: Install Splunk-specific tools
+  hosts: splunk
+  become: yes
+  tasks:
+    - name: Ensure Splunk is up to date
+      package:
+        name: splunk
+        state: latest

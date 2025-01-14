@@ -1,0 +1,5 @@
+---
+- name: Install Linux-specific tools
+  package:
+    name: "{{ linux_tools }}"
+    state: present
