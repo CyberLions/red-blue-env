@@ -25,6 +25,8 @@ parameters:
     type: string
   central_router_id:
     type: string
+  environment_security_group_id:
+    type: string
 
 resources:
   env_network:
