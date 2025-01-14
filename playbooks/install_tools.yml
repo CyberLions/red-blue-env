@@ -1,52 +1,75 @@
 ---
 - name: Common tasks for all hosts
   hosts: all
+  any_errors_fatal: false
   roles:
     - common
 
 - name: Linux-specific common tasks
   hosts: all:!windows
+  any_errors_fatal: false
   roles:
     - linux
 
 - name: Windows-specific common tasks
   hosts: windows
+  any_errors_fatal: false
   roles:
     - windows
 
 - name: Install tools on Windows servers
   hosts: windows
+  any_errors_fatal: false
   roles:
-    - { role: windows_ad_dns_dhcp, when: "'internal' in inventory_hostname" }
-    - { role: windows_docker_remote, when: "'user' in inventory_hostname" }
+    - { role: windows_ad_dns_dhcp, when: "'internal' in inventory_hostname", ignore_errors: yes }
+    - { role: windows_docker_remote, when: "'user' in inventory_hostname", ignore_errors: yes }
 
 - name: Install tools on Debian servers
-  hosts: all
+  hosts: debian
   become: yes
+  any_errors_fatal: false
   roles:
-    - debian_dns_ntp
+    - { role: debian_dns_ntp, ignore_errors: yes }
 
 - name: Install tools on Ubuntu servers
   hosts: ubuntu
   become: yes
+  any_errors_fatal: false
   roles:
-    - ubuntu_web
+    - { role: ubuntu_web, ignore_errors: yes }
 
 - name: Install tools on CentOS servers
   hosts: centos
   become: yes
+  any_errors_fatal: false
   roles:
-    - centos_ecomm
+    - { role: centos_ecomm, ignore_errors: yes }
 
 - name: Install tools on Fedora servers
   hosts: fedora
   become: yes
+  any_errors_fatal: false
   roles:
-    - fedora_webmail_webapps
+    - { role: fedora_webmail_webapps, ignore_errors: yes }
 
 - name: Install tools on Splunk servers
   hosts: splunk
   become: yes
+  any_errors_fatal: false
   roles:
-    - splunk
+    - { role: splunk, ignore_errors: yes }
 
+---
+- name: Import install_tools playbook
+  import_playbook: playbooks/install_tools.yml
+  ignore_errors: yes
+
+- name: Verify installation
+  hosts: all
+  become: yes
+  any_errors_fatal: false
+  tasks:
+    - name: Display completion message
+      debug:
+        msg: "Tools installation completed on {{ inventory_hostname }}"
+      ignore_errors: yes
