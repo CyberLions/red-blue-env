@@ -108,18 +108,6 @@ resources:
       dns_nameservers:
         - 1.1.1.1
 
-  master_router:
-    type: OS::Neutron::Router
-    properties:
-      external_gateway_info:
-        network: { get_param: public_net }
-
-  master_router_interface:
-    type: OS::Neutron::RouterInterface
-    properties:
-      router_id: { get_resource: master_router }
-      subnet_id: { get_resource: master_subnet }
-
   master_instance:
     type: OS::Nova::Server
     properties:
@@ -157,14 +145,12 @@ resources:
             chmod 600 /home/ubuntu/red-blue-env/keys/*
             chmod +x /home/ubuntu/red-blue-env/inventory_script.py
 
-            # Write environments information to a file
-            echo "$environment_count" > /home/ubuntu/environment_count.txt
-
             # Create a script to run Ansible playbooks
             cat << EOF > /home/ubuntu/run_ansible.sh
             #!/bin/bash
             cd /home/ubuntu/red-blue-env
-            ansible-playbook -i inventory.ini playbook.yml --extra-vars "@/home/ubuntu/environment_count.txt"
+            python3 inventory_script.py $environment_count > inventory.json
+            ansible-playbook -i inventory.json deploy.yml
             EOF
 
             chmod +x /home/ubuntu/run_ansible.sh

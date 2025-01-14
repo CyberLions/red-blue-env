@@ -1,0 +1,13 @@
+---
+- name: Deploy and Install Tools
+  hosts: all
+  become: yes
+  
+  tasks:
+    - name: Include install_tools playbook
+      include_playbook: playbooks/install_tools.yml
+
+  post_tasks:
+    - name: Verify installation
+      debug:
+        msg: "Tools installation completed on {{ inventory_hostname }}"
