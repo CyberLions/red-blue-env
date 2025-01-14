@@ -23,6 +23,8 @@ parameters:
     type: string
   public_net:
     type: string
+  central_router_id:
+    type: string
 
 resources:
   env_network:
