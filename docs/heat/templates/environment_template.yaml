@@ -85,28 +85,22 @@ resources:
           params:
             $index: { get_param: environment_index }
 
-  env_router:
-    type: OS::Neutron::Router
-    properties:
-      external_gateway_info:
-        network: { get_param: public_net }
-
   router_interface_internal:
     type: OS::Neutron::RouterInterface
     properties:
-      router_id: { get_resource: env_router }
+      router_id: { get_param: central_router_id }
       subnet_id: { get_resource: internal_subnet }
 
   router_interface_user:
     type: OS::Neutron::RouterInterface
     properties:
-      router_id: { get_resource: env_router }
+      router_id: { get_param: central_router_id }
       subnet_id: { get_resource: user_subnet }
 
   router_interface_public:
     type: OS::Neutron::RouterInterface
     properties:
-      router_id: { get_resource: env_router }
+      router_id: { get_param: central_router_id }
       subnet_id: { get_resource: public_subnet }
 
   windows_2019_internal:
@@ -120,6 +114,8 @@ resources:
       image: { get_param: windows_2019_image }
       flavor: m1.medium
       key_name: { get_param: key_name }
+      security_groups:
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: internal_subnet }
@@ -141,6 +137,8 @@ resources:
       image: { get_param: debian_10_image }
       flavor: m1.medium
       key_name: { get_param: key_name }
+      security_groups:
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: internal_subnet }
@@ -162,6 +160,8 @@ resources:
       image: { get_param: ubuntu_18_image }
       flavor: m1.medium
       key_name: { get_param: key_name }
+      security_groups:
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: user_subnet }
@@ -183,6 +183,8 @@ resources:
       image: { get_param: windows_2019_image }
       flavor: m1.medium
       key_name: { get_param: key_name }
+      security_groups:
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: user_subnet }
@@ -204,6 +206,8 @@ resources:
       image: { get_param: ubuntu_20_image }
       flavor: m1.medium
       key_name: { get_param: key_name }
+      security_groups:
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: user_subnet }
@@ -225,6 +229,8 @@ resources:
       image: { get_param: splunk_image }
       flavor: m1.medium
       key_name: { get_param: key_name }
+      security_groups:
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: public_subnet }
@@ -246,6 +252,8 @@ resources:
       image: { get_param: centos_7_image }
       flavor: m1.medium
       key_name: { get_param: key_name }
+      security_groups:
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: public_subnet }
@@ -267,6 +275,8 @@ resources:
       image: { get_param: fedora_21_image }
       flavor: m1.medium
       key_name: { get_param: key_name }
+      security_groups:
+        - { get_resource: environment_security_group }
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: public_subnet }
