@@ -1,0 +1,41 @@
+- name: Install Postfix
+  dnf:
+    name: postfix
+    state: present
+
+- name: Install Dovecot
+  dnf:
+    name: dovecot
+    state: present
+
+- name: Install Roundcube webmail
+  dnf:
+    name: roundcubemail
+    state: present
+
+- name: Configure Postfix
+  template:
+    src: main.cf.j2
+    dest: /etc/postfix/main.cf
+
+- name: Configure Dovecot
+  template:
+    src: dovecot.conf.j2
+    dest: /etc/dovecot/dovecot.conf
+
+- name: Configure Roundcube
+  template:
+    src: config.inc.php.j2
+    dest: /etc/roundcubemail/config.inc.php
+
+- name: Start and enable Postfix
+  service:
+    name: postfix
+    state: started
+    enabled: yes
+
+- name: Start and enable Dovecot
+  service:
+    name: dovecot
+    state: started
+    enabled: yes

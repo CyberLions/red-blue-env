@@ -1,26 +1,52 @@
 ---
-- name: Install tools on all machines
+- name: Common tasks for all hosts
   hosts: all
-  become: yes
   roles:
     - common
 
-- name: Install Windows-specific tools
+- name: Linux-specific common tasks
+  hosts: all:!windows
+  roles:
+    - linux_common
+
+- name: Windows-specific common tasks
   hosts: windows
   roles:
-    - windows
+    - windows_common
+    
+- name: Install tools on Windows servers
+  hosts: windows
+  roles:
+    - { role: windows_ad_dns_dhcp, when: "'internal' in inventory_hostname" }
+    - { role: windows_docker_remote, when: "'user' in inventory_hostname" }
 
-- name: Install Linux-specific tools
-  hosts: linux
+- name: Install tools on Debian servers
+  hosts: debian
   become: yes
   roles:
-    - linux
+    - debian_dns_ntp
 
-- name: Install Splunk-specific tools
+- name: Install tools on Ubuntu servers
+  hosts: ubuntu
+  become: yes
+  roles:
+    - ubuntu_web
+
+- name: Install tools on CentOS servers
+  hosts: centos
+  become: yes
+  roles:
+    - centos_ecomm
+
+- name: Install tools on Fedora servers
+  hosts: fedora
+  become: yes
+  roles:
+    - fedora_webmail_webapps
+
+- name: Install tools on Splunk servers
   hosts: splunk
   become: yes
-  tasks:
-    - name: Ensure Splunk is up to date
-      package:
-        name: splunk
-        state: latest
+  roles:
+    - splunk
+

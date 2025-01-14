@@ -1,0 +1,36 @@
+- name: Install AD Domain Services
+  win_feature:
+    name: AD-Domain-Services
+    state: present
+    include_management_tools: yes
+
+- name: Install DNS Server
+  win_feature:
+    name: DNS
+    state: present
+    include_management_tools: yes
+
+- name: Install DHCP Server
+  win_feature:
+    name: DHCP
+    state: present
+    include_management_tools: yes
+
+- name: Configure AD Domain
+  win_domain:
+    dns_domain_name: example.com
+    safe_mode_password: SecurePassword123!
+
+- name: Configure DNS Server
+  win_dns_zone:
+    name: example.com
+    type: primary
+    dynamic_update: secure
+
+- name: Configure DHCP Server
+  win_dhcp_lease:
+    name: Default
+    start_range: 10.0.0.100
+    end_range: 10.0.0.200
+    subnet_mask: 255.255.255.0
+    state: present

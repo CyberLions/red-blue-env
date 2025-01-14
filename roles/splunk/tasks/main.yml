@@ -1,0 +1,26 @@
+- name: Download Splunk
+  get_url:
+    url: "https://download.splunk.com/products/splunk/releases/9.1.1/linux/splunk-9.1.1-64-Linux-x86_64.tgz"
+    dest: "/tmp/splunk.tgz"
+
+- name: Extract Splunk
+  unarchive:
+    src: "/tmp/splunk.tgz"
+    dest: "/opt"
+    remote_src: yes
+
+- name: Start Splunk
+  command: "/opt/splunk/bin/splunk start --accept-license --answer-yes --no-prompt"
+
+- name: Configure Splunk inputs
+  template:
+    src: inputs.conf.j2
+    dest: /opt/splunk/etc/system/local/inputs.conf
+
+- name: Configure Splunk outputs
+  template:
+    src: outputs.conf.j2
+    dest: /opt/splunk/etc/system/local/outputs.conf
+
+- name: Restart Splunk
+  command: "/opt/splunk/bin/splunk restart"

@@ -1,0 +1,29 @@
+- name: Install BIND DNS server
+  apt:
+    name: bind9
+    state: present
+
+- name: Install NTP
+  apt:
+    name: ntp
+    state: present
+
+- name: Configure BIND
+  template:
+    src: named.conf.options.j2
+    dest: /etc/bind/named.conf.options
+
+- name: Configure NTP
+  template:
+    src: ntp.conf.j2
+    dest: /etc/ntp.conf
+
+- name: Restart BIND
+  service:
+    name: bind9
+    state: restarted
+
+- name: Restart NTP
+  service:
+    name: ntp
+    state: restarted

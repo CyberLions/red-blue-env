@@ -1,0 +1,37 @@
+- name: Install Apache
+  yum:
+    name: httpd
+    state: present
+
+- name: Install PHP
+  yum:
+    name: php
+    state: present
+
+- name: Install MariaDB
+  yum:
+    name: mariadb-server
+    state: present
+
+- name: Start and enable Apache
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Start and enable MariaDB
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Install WooCommerce (example e-commerce platform)
+  get_url:
+    url: https://downloads.wordpress.org/plugin/woocommerce.latest-stable.zip
+    dest: /var/www/html/woocommerce.zip
+
+- name: Extract WooCommerce
+  unarchive:
+    src: /var/www/html/woocommerce.zip
+    dest: /var/www/html/
+    remote_src: yes

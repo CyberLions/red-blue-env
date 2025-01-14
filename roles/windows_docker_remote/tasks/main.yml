@@ -1,0 +1,13 @@
+- name: Install Docker
+  win_chocolatey:
+    name: docker-desktop
+    state: present
+
+- name: Enable Remote Desktop
+  win_rdp:
+    allow_connections: yes
+
+- name: Configure Docker
+  win_shell: |
+    docker network create mynetwork
+    docker volume create myvolume
