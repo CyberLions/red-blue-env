@@ -290,8 +290,3 @@ resources:
               template: 10.$index.3.12
               params:
                 $index: { get_param: environment_index }
-
-  outputs:
-    env_network_id:
-      description: ID of the environment network
-      value: { get_resource: env_network }
