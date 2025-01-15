@@ -1,7 +1,8 @@
 ---
 - name: Ensure we have sudo privileges
   become: yes
-  become_method: sudo
+  command: whoami
+  changed_when: false
 
 - name: Update CentOS 7 repo URLs
   replace:
