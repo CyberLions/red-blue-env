@@ -19,6 +19,13 @@
 #    - { role: windows_ad_dns_dhcp, when: "'internal' in inventory_hostname", ignore_errors: yes }
 #    - { role: windows_docker_remote, when: "'user' in inventory_hostname", ignore_errors: yes }
 
+- name: Install tools on Fedora servers
+  hosts: fedora
+  become: yes
+  any_errors_fatal: false
+  roles:
+    - { role: fedora_webmail_webapps, ignore_errors: yes }
+    
 - name: Install tools on Debian servers
   hosts: debian
   become: yes
@@ -40,12 +47,6 @@
   roles:
     - { role: centos_ecomm, ignore_errors: yes }
 
-- name: Install tools on Fedora servers
-  hosts: fedora
-  become: yes
-  any_errors_fatal: false
-  roles:
-    - { role: fedora_webmail_webapps, ignore_errors: yes }
 
 - name: Install tools on Splunk servers
   hosts: splunk
