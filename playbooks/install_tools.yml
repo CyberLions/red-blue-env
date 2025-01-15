@@ -1,9 +1,9 @@
 ---
-- name: Common tasks for all hosts
-  hosts: all
-  any_errors_fatal: false
-  roles:
-    - common
+#- name: Common tasks for all hosts
+#  hosts: all
+#  any_errors_fatal: false
+#  roles:
+#    - common
 
 - name: Linux-specific common tasks
   hosts: all:!windows
