@@ -31,7 +31,7 @@
     update_cache: yes
   when: ansible_distribution == 'CentOS'
 
-- name: Update dnf cache (Fedora)
-  dnf:
+- name: Update rpm cache (Fedora)
+  rpm:
     update_cache: yes
   when: ansible_distribution == 'Fedora'
