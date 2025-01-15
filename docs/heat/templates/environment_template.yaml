@@ -131,6 +131,13 @@ resources:
       key_name: { get_param: key_name }
       security_groups:
         - { get_resource: environment_security_group }
+      user_data_format: RAW
+      user_data: | 
+        #PS1 - Enable WinRM, disable defender and firewalls
+        Enable-PSRemoting -Force
+        Get-Service WinDefend | Stop-Service -PassThru | Set-Service -StartupType Disabled
+        Remove-WindowsFeature Windows-Defender, Windows-Defender-GUI
+        Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
       networks:
         - network: { get_resource: env_network }
           subnet: { get_resource: internal_subnet }
