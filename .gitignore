@@ -86,3 +86,4 @@ iso/
 
 # Kubespray creds
 inventories/**/credentials
+.vscode/settings.json
