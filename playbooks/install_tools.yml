@@ -6,18 +6,18 @@
   roles:
     - linux
 
-- name: Windows-specific common tasks
-  hosts: windows
-  any_errors_fatal: false
-  roles:
-    - windows
+#- name: Windows-specific common tasks
+#  hosts: windows
+#  any_errors_fatal: false
+#  roles:
+#    - windows
 
-- name: Install tools on Windows servers
-  hosts: windows
-  any_errors_fatal: false
-  roles:
-    - { role: windows_ad_dns_dhcp, when: "'internal' in inventory_hostname", ignore_errors: yes }
-    - { role: windows_docker_remote, when: "'user' in inventory_hostname", ignore_errors: yes }
+#- name: Install tools on Windows servers
+#  hosts: windows
+#  any_errors_fatal: false
+#  roles:
+#    - { role: windows_ad_dns_dhcp, when: "'internal' in inventory_hostname", ignore_errors: yes }
+#    - { role: windows_docker_remote, when: "'user' in inventory_hostname", ignore_errors: yes }
 
 - name: Install tools on Debian servers
   hosts: debian
