@@ -1,3 +1,13 @@
+- name: Transfer DNF package
+  copy:
+    src: dnf-4.22.0-2.mga10.noarch.rpm
+    dest: /tmp/dnf-4.22.0-2.mga10.noarch.rpm
+
+- name: Install DNF using RPM
+  command: rpm -ivh /tmp/dnf-4.22.0-2.mga10.noarch.rpm
+  args:
+    creates: /usr/bin/dnf
+
 - name: Install Postfix
   dnf:
     name: postfix
