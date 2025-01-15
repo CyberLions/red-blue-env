@@ -1,0 +1,26 @@
+- name: Install Ubuntu desktop
+  apt:
+    name: ubuntu-desktop
+    state: present
+
+- name: Install GNOME desktop environment
+  apt:
+    name: gnome
+    state: present
+
+- name: Install LightDM display manager
+  apt:
+    name: lightdm
+    state: present
+
+- name: Set LightDM as default display manager
+  debconf:
+    name: lightdm
+    question: shared/default-x-display-manager
+    value: lightdm
+
+- name: Enable LightDM service
+  systemd:
+    name: lightdm
+    enabled: yes
+    state: started

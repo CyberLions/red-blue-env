@@ -1,0 +1,12 @@
+# Basic Postfix Configuration
+
+myhostname = {{ ansible_hostname }}
+mydomain = example.com
+
+mydestination = $myhostname, localhost.$mydomain, localhost
+
+relayhost = 
+
+mynetworks = 127.0.0.0/8
+
+home_mailbox = Maildir/

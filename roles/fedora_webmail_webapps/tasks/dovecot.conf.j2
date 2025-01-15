@@ -1,0 +1,18 @@
+# Dovecot Configuration
+
+mail_location = maildir:~/Maildir
+
+service imap-login {
+   inet_listener imap {
+      port = 0
+   }
+   inet_listener imaps {
+      port = 993
+      ssl = yes
+   }
+}
+
+ssl_cert = </etc/ssl/certs/ssl-cert-snakeoil.pem
+ssl_key = </etc/ssl/private/ssl-cert-snakeoil.key
+
+protocols = imap pop3 lmtp
