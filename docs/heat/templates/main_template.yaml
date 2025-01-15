@@ -10,12 +10,6 @@ parameters:
     description: Name of a KeyPair to enable SSH access to the instances.
     constraints:
       - custom_constraint: nova.keypair
-  master_key_name:
-    type: string
-    label: Master Keypair Name
-    description: Name of a KeyPair to enable SSH access to the master instance.
-    constraints:
-      - custom_constraint: nova.keypair
   windows_2019_image:
     type: string
     label: Windows Server 2019 Image
@@ -114,7 +108,7 @@ resources:
       name: master-ubuntu
       image: { get_param: ubuntu_20_image }
       flavor: m1.medium
-      key_name: { get_param: master_key_name }
+      key_name: { get_param: key_name }
       networks:
         - network: { get_resource: master_network }
       security_groups:
@@ -175,7 +169,7 @@ resources:
           ubuntu_18_image: { get_param: ubuntu_18_image }
           ubuntu_20_image: { get_param: ubuntu_20_image }
           centos_7_image: { get_param: centos_7_image }
-          fedora_31_image: { get_param: fedora_31_image }
+          fedora_31_image: { get_param: fedora_41_image }
           public_net: { get_param: public_net }
           central_router_id: { get_resource: central_router }
 
