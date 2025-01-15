@@ -1,21 +1,3 @@
-- name: Transfer Python package
-  copy:
-    src: python-kitchen-1.2.6-9.el9.src.rpm
-    dest: /tmp/python-kitchen-1.2.6-9.el9.src.rpm
-
-- name: Transfer YUM package
-  copy:
-    src: yum-utils-1.1.31-28.fc21.noarch.rpm
-    dest: /tmp/yum-utils-1.1.31-28.fc21.noarch.rpm
-
-- name: Install Python using RPM
-  command: rpm -ivh /tmp/python-kitchen-1.2.6-9.el9.src.rpm
-
-- name: Install YUM using RPM
-  command: rpm -ivh /tmp/yum-utils-1.1.31-28.fc21.noarch.rpm
-  args:
-    creates: /usr/bin/yum
-
 - name: Install Postfix
   dnf:
     name: postfix
