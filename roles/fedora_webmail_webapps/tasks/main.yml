@@ -1,10 +1,10 @@
 - name: Transfer DNF package
   copy:
-    src: dnf-4.22.0-2.mga10.noarch.rpm
-    dest: /tmp/dnf-4.22.0-2.mga10.noarch.rpm
+    src: dnf-4.6.0-1.mga8.noarch.rpm
+    dest: /tmp/dnf-4.6.0-1.mga8.noarch.rpm
 
 - name: Install DNF using RPM
-  command: rpm -ivh /tmp/dnf-4.22.0-2.mga10.noarch.rpm
+  command: rpm -ivh /tmp/dnf-4.6.0-1.mga8.noarch.rpm
   args:
     creates: /usr/bin/dnf
 
