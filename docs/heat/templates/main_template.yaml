@@ -40,10 +40,10 @@ parameters:
     description: ID of the CentOS 7 image.
     constraints:
       - custom_constraint: glance.image
-  fedora_21_image:
+  fedora_31_image:
     type: string
-    label: Fedora 41 Image
-    description: ID of the Fedora 41 image.
+    label: Fedora 31 Image
+    description: ID of the Fedora 31 image.
     constraints:
       - custom_constraint: glance.image
   public_net:
@@ -169,7 +169,7 @@ resources:
           ubuntu_18_image: { get_param: ubuntu_18_image }
           ubuntu_20_image: { get_param: ubuntu_20_image }
           centos_7_image: { get_param: centos_7_image }
-          fedora_21_image: { get_param: fedora_21_image }
+          fedora_31_image: { get_param: fedora_31_image }
           public_net: { get_param: public_net }
           central_router_id: { get_resource: central_router }
 

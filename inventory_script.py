@@ -28,7 +28,7 @@ def generate_inventory(env_count):
         inventory["all"]["children"]["ubuntu"]["hosts"][f"ubuntu-20-desktop-user-{i}"] = {"ansible_host": f"10.{i}.2.12", "ansible_user": "ubuntu"}
         inventory["all"]["children"]["splunk"]["hosts"][f"splunk-public-{i}"] = {"ansible_host": f"10.{i}.3.10", "ansible_user": "splunk"}
         inventory["all"]["children"]["centos"]["hosts"][f"centos-7-public-{i}"] = {"ansible_host": f"10.{i}.3.11", "ansible_user": "centos"}
-        inventory["all"]["children"]["fedora"]["hosts"][f"fedora-21-public-{i}"] = {"ansible_host": f"10.{i}.3.12", "ansible_user": "fedora"}
+        inventory["all"]["children"]["fedora"]["hosts"][f"fedora-31-public-{i}"] = {"ansible_host": f"10.{i}.3.12", "ansible_user": "fedora"}
 
     return inventory
 

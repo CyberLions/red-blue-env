@@ -13,7 +13,7 @@ ubuntu-20-desktop-user-*
 centos-7-public-*
 
 [fedora]
-fedora-21-public-*
+fedora-31-public-*
 
 [splunk]
 splunk-public-*
