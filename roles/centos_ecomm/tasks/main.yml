@@ -25,6 +25,11 @@
     state: started
     enabled: yes
 
+- name: Install unzip
+  yum:
+    name: unzip
+    state: present
+
 - name: Install WooCommerce (example e-commerce platform)
   get_url:
     url: https://downloads.wordpress.org/plugin/woocommerce.latest-stable.zip
