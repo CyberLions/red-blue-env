@@ -30,8 +30,3 @@
   yum:
     update_cache: yes
   when: ansible_distribution == 'CentOS'
-
-- name: Update rpm cache (Fedora)
-  rpm:
-    update_cache: yes
-  when: ansible_distribution == 'Fedora'
