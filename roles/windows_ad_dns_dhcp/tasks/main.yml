@@ -1,8 +1,10 @@
-- name: Install AD Domain Services
-  win_feature:
-    name: AD-Domain-Services
-    state: present
-    include_management_tools: yes
+- name: Install Active Directory
+  ansible.windows.win_feature:
+       name: AD-Domain-Services
+       include_management_tools: yes
+       include_sub_features: yes
+       state: present
+  register: result
 
 - name: Install DNS Server
   win_feature:
@@ -16,10 +18,32 @@
     state: present
     include_management_tools: yes
 
-- name: Configure AD Domain
-  win_domain:
-    dns_domain_name: example.com
-    safe_mode_password: SecurePassword123!
+- name: Create Domain
+  microsoft.ad.domain:
+     dns_domain_name: "{{ domain_name }}"
+     safe_mode_password: "{{ recovery_password }}"
+     sysvol_path: C:\Windows\SYSVOL
+     database_path: C:\Windows\NTDS
+  register: domain_install
+
+- name: Reboot server if required
+  ansible.windows.win_reboot:
+  when: domain_install.reboot_required
+
+- name: Check if DNS forwarder 1.1.1.1 exists
+  win_shell: |
+    $forwarders = Get-DnsServerForwarder | Select-Object -ExpandProperty IPAddress
+    if ($forwarders -contains '1.1.1.1') {
+      Write-Output 'Exists'
+    } else {
+      Write-Output 'NotExists'
+    }
+  register: dns_forwarder_check
+
+- name: Add DNS forwarder 1.1.1.1 if not present
+  win_shell: |
+    Add-DnsServerForwarder -IPAddress '1.1.1.1'
+  when: "'NotExists' in dns_forwarder_check.stdout"
 
 - name: Configure DNS Server
   community.windows.win_dns_zone:
@@ -30,7 +54,12 @@
 - name: Configure DHCP Server
   community.windows.win_dhcp_lease:
     name: Default
-    start_range: 10.0.0.100
-    end_range: 10.0.0.200
-    subnet_mask: 255.255.255.0
+    start_range: "{{ dhcp_start }}"
+    end_range: "{{ dhcp_end }}"
+    subnet_mask: "{{ dhcp_subnet_mask }}"
     state: present
+
+# This takes a while due to users and groups - hence the tag
+- name: Configure AD
+  include_tasks: configure_AD.yaml
+  tags: configure_ad

@@ -1,0 +1,26 @@
+---
+- name: Create AD Groups
+  microsoft.ad.group:
+    identity: "{{ item }}"
+    scope: Global
+    state: present
+  loop: "{{ ad_groups }}"
+
+- name: Create AD Users
+  win_user:
+    name: "{{ item.username }}"
+    fullname: "{{ item.fullname }}"
+    password: "{{ item.password }}"
+    password_expired: no
+    password_never_expires: yes
+    state: present
+  loop: "{{ ad_users }}"
+
+- name: Add members to the groups
+  microsoft.ad.group:
+    name: "{{ item.group }}"
+    scope: Global
+    members:
+      add:
+        - "{{item.username}}"
+  loop: "{{ ad_users }}"

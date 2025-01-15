@@ -1,0 +1,29 @@
+---
+# Domain Info
+recovery_password: "Password123!"
+domain_name: "ccso.local"
+
+# Group Info
+ad_groups:
+  - "Executive"
+  - "Development"
+  - "HR"
+  - "Marketing"
+  - "IT"
+
+# User Info
+ad_users:
+  - username: "user1"
+    fullname: "User Name"
+    password: "Passw0rd123!"
+    group: "Executive"
+  - username: "user2"
+    fullname: "User Name"
+    password: "Passw0rd123!"
+    group: "Executive"
+
+# DHCP Info
+
+dhcp_start: "10.0.0.100"
+dhcp_end: "10.0.0.200"
+dhcp_subnet_mask: "255.255.255.0"
