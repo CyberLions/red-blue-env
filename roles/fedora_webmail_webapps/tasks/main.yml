@@ -1,10 +1,10 @@
 - name: Transfer DNF package
   copy:
-    src: dnf-4.6.0-1.mga8.noarch.rpm
-    dest: /tmp/dnf-4.6.0-1.mga8.noarch.rpm
+    src: yum-utils-1.1.31-28.fc21.noarch.rpm
+    dest: /tmp/yum-utils-1.1.31-28.fc21.noarch.rpm
 
 - name: Install DNF using RPM
-  command: rpm -ivh /tmp/dnf-4.6.0-1.mga8.noarch.rpm
+  command: rpm -ivh /tmp/yum-utils-1.1.31-28.fc21.noarch.rpm
   args:
     creates: /usr/bin/dnf
 
