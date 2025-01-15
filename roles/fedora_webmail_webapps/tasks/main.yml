@@ -10,13 +10,11 @@
 
 - name: Install Python using RPM
   command: rpm -ivh /tmp/python-kitchen-1.2.6-9.el9.src.rpm
-  args:
-    creates: /usr/bin/dnf
 
 - name: Install YUM using RPM
   command: rpm -ivh /tmp/yum-utils-1.1.31-28.fc21.noarch.rpm
   args:
-    creates: /usr/bin/dnf
+    creates: /usr/bin/yum
 
 - name: Install Postfix
   dnf:

@@ -34,12 +34,6 @@ parameters:
     description: ID of the Ubuntu 20.04 Desktop image.
     constraints:
       - custom_constraint: glance.image
-  splunk_image:
-    type: string
-    label: Splunk Image
-    description: ID of the Splunk image.
-    constraints:
-      - custom_constraint: glance.image
   centos_7_image:
     type: string
     label: CentOS 7 Image
@@ -48,8 +42,8 @@ parameters:
       - custom_constraint: glance.image
   fedora_21_image:
     type: string
-    label: Fedora 21 Image
-    description: ID of the Fedora 21 image.
+    label: Fedora 41 Image
+    description: ID of the Fedora 41 image.
     constraints:
       - custom_constraint: glance.image
   public_net:
@@ -174,7 +168,6 @@ resources:
           debian_10_image: { get_param: debian_10_image }
           ubuntu_18_image: { get_param: ubuntu_18_image }
           ubuntu_20_image: { get_param: ubuntu_20_image }
-          splunk_image: { get_param: splunk_image }
           centos_7_image: { get_param: centos_7_image }
           fedora_21_image: { get_param: fedora_21_image }
           public_net: { get_param: public_net }

@@ -15,8 +15,6 @@ parameters:
     type: string
   ubuntu_20_image:
     type: string
-  splunk_image:
-    type: string
   centos_7_image:
     type: string
   fedora_21_image:
@@ -243,7 +241,7 @@ resources:
           template: splunk-public-$index
           params:
             $index: { get_param: environment_index }
-      image: { get_param: splunk_image }
+      image: { get_param: debian_10_image }
       flavor: m1.medium
       key_name: { get_param: key_name }
       security_groups:
