@@ -24,7 +24,9 @@
     server_name: tgmglobal
 
 - name: Enable Apache virtual host
-  command: a2ensite mysite.conf
+  command: a2ensite {{ server_name }}.conf
+  vars:
+    server_name: tgmglobal
 
 - name: Restart Apache
   service:
