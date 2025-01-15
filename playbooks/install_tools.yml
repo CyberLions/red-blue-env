@@ -1,6 +1,7 @@
 ---
 - name: Linux-specific common tasks
   hosts: all:!windows
+  become: yes # This ensures all tasks run with sudo privileges
   any_errors_fatal: false
   roles:
     - linux
