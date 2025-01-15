@@ -1,0 +1,9 @@
+[tcpout]
+defaultGroup = splunk_indexers
+
+[tcpout:splunk_indexers]
+server = indexer1:9997, indexer2:9997
+
+[tcpout-server://indexer1:9997]
+
+[tcpout-server://indexer2:9997]

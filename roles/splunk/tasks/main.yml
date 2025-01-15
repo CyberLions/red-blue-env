@@ -1,13 +1,12 @@
 - name: Download Splunk
   get_url:
-    url: "https://download.splunk.com/products/splunk/releases/9.1.1/linux/splunk-9.1.1-64-Linux-x86_64.tgz"
-    dest: "/tmp/splunk.tgz"
+    url: "https://download.splunk.com/products/splunk/releases/7.1.1/linux/splunk-7.1.1-8f0ead9ec3db-linux-2.6-amd64.deb"
+    dest: "/tmp/splunk.deb"
 
-- name: Extract Splunk
-  unarchive:
-    src: "/tmp/splunk.tgz"
-    dest: "/opt"
-    remote_src: yes
+- name: Install Splunk
+  apt:
+    deb: "/tmp/splunk.deb"
+    state: present
 
 - name: Start Splunk
   command: "/opt/splunk/bin/splunk start --accept-license --answer-yes --no-prompt"

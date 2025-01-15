@@ -1,0 +1,19 @@
+[monitor:///var/log/syslog]
+disabled = false
+sourcetype = syslog
+
+[monitor:///var/log/auth.log]
+disabled = false
+sourcetype = linux_secure
+
+[monitor:///var/log/apache2/access.log]
+disabled = false
+sourcetype = access_combined
+
+[monitor:///var/log/apache2/error.log]
+disabled = false
+sourcetype = apache_error
+
+[udp://514]
+disabled = false
+sourcetype = syslog
