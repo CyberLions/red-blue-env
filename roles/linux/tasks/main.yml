@@ -35,4 +35,3 @@
   dnf:
     update_cache: yes
   when: ansible_distribution == 'Fedora'
-s
