@@ -134,7 +134,7 @@ resources:
             apt-get install -y ansible git
 
             # Clone the repository
-            git clone https://github.com/CyberLions/red-blue-env.git /home/ubuntu/red-blue-env
+            git clone -b windows-ad-and-heat https://github.com/CyberLions/red-blue-env.git /home/ubuntu/red-blue-env
             chown -R ubuntu:ubuntu /home/ubuntu/red-blue-env
             chmod 600 /home/ubuntu/red-blue-env/keys/*
             chmod +x /home/ubuntu/red-blue-env/inventory_script.py
@@ -158,7 +158,7 @@ resources:
     properties:
       count: { get_param: environment_count }
       resource_def:
-        type: https://github.com/CyberLions/red-blue-env/raw/refs/heads/main/docs/heat/templates/environment_template.yaml
+        type: https://raw.githubusercontent.com/CyberLions/red-blue-env/refs/heads/windows-ad-and-heat/docs/heat/templates/environment_template.yaml
         properties:
           environment_index: 
             yaql:
