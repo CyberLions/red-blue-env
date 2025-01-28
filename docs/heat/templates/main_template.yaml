@@ -169,7 +169,7 @@ resources:
           ubuntu_18_image: { get_param: ubuntu_18_image }
           ubuntu_20_image: { get_param: ubuntu_20_image }
           centos_7_image: { get_param: centos_7_image }
-          fedora_31_image: { get_param: fedora_41_image }
+          fedora_31_image: { get_param: fedora_31_image }
           public_net: { get_param: public_net }
           central_router_id: { get_resource: central_router }
 
